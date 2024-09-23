@@ -89,17 +89,7 @@ def cluster_logits(clients_idxs, clients, shared_data_loader, args, alpha = 0.5,
         clusters.append(copy.deepcopy(cc))
     #print(f'clusters before merge: {clusters}')
     clusters_bm = copy.deepcopy(clusters)
-    #clusters = merge_clusters(clusters)
-    #print(f'clusters after merge: {clusters}')
-    
-#     count = 0
-#     for el in clusters:
-#         count += len(el)
-        
-    #print(f'count: {count}') 
-    
-#     assert count == nclients
-    
+
     w_locals_clusters = {i: [] for i in range(len(clusters))}
     for i in range(len(clusters)):
         temp = []

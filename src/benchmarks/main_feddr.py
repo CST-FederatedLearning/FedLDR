@@ -162,37 +162,6 @@ def main_feddr(args):
         ####### FedAvg ####### START
         total_data_points = sum([len(partitions_train[r]) for r in idxs_users])
         fed_avg_freqs = [len(partitions_train[r]) / total_data_points for r in idxs_users]
-        #
-        # # calculate the discrepancy
-        # distribution_difference = get_distribution_difference(net_cls_counts_npy,
-        #                                                       participation_clients=idxs_users,
-        #                                                       metric=args.measure_difference)
-        # if np.sum(distribution_difference) == 0:
-        #     distribution_difference = np.array([0 for _ in range(len(distribution_difference))])
-        # else:
-        #     distribution_difference = distribution_difference / np.sum(
-        #         distribution_difference)  # normalize. (some metrics make the difference value larger than 1.0)
-        # if args.difference_operation == 'linear':
-        #     pass
-        # elif args.difference_operation == 'square':
-        #     distribution_difference = np.power(distribution_difference, 2)
-        # elif args.difference_operation == 'cube':
-        #     distribution_difference = np.power(distribution_difference, 3)
-        # else:
-        #     raise NotImplementedError
-        # if round == 0 or args.frac < 1.0:
-        #     print(f'Distribution_difference : {distribution_difference}')
-        # if args.distribution_aware != 'not':
-        #     a = args.disco_a
-        #     b = args.disco_b
-        #     tmp = fed_avg_freqs - a * distribution_difference + b
-        #     if np.sum(tmp > 0) > 0:  # ensure not all elements are smaller than 0
-        #         fed_avg_freqs = np.copy(tmp)
-        #         fed_avg_freqs[fed_avg_freqs < 0.0] = 0.0
-        #     total_normalizer = sum([fed_avg_freqs[r] for r in range(len(idxs_users))])
-        #     fed_avg_freqs = [fed_avg_freqs[r] / total_normalizer for r in range(len(idxs_users))]
-        #     if round == 0 or args.frac < 1.0:
-        #         print(f'Disco Aggregation Weights : {fed_avg_freqs}')
 
         w_locals = []
         for idx in idxs_users:

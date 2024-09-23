@@ -161,22 +161,6 @@ def partition_data(dataset, datadir, partition, num_users, niid_beta=0.5, iid_be
 
     x_train, y_train, x_test, y_test = load_data(datadir, dataset, p_train, p_train)
 
-    #     idxs_train = np.arange(len(x_train))
-    #     idxs_test = np.arange(len(x_test))
-
-    #     perm_train = idxs_train  #np.random.permutation(idxs_train)
-    #     perm_test  = idxs_test   #np.random.permutation(idxs_test)
-
-    #     p_train1 = int(len(idxs_train)*p_train)
-    #     p_test1 = int(len(idxs_test)*p_test)
-    #     perm_train = perm_train[0:p_train1]
-    #     perm_test = perm_test[0:p_test1]
-
-    #     x_train = x_train[perm_train]
-    #     y_train = y_train[perm_train]
-
-    #     x_test = x_test[perm_test]
-    #     y_test = y_test[perm_test]
 
     idxs_train = np.arange(len(x_train))
     idxs_test = np.arange(len(x_test))
@@ -357,10 +341,6 @@ def partition_data(dataset, datadir, partition, num_users, niid_beta=0.5, iid_be
         for x in batch(sorted_idxs_train, len_shard):
             shards.append(x)
         rand_shards = np.random.permutation(shards)
-
-        #         a = [np.arange(i, i+len_shard).tolist() for i in range(0, n_train, len_shard)]
-        #         c = np.random.permutation(a)
-        #         idxs_batch = [np.concatenate([c[i], c[i + 1]]) for i in range(0, len(c) - 1, 2)]
 
         cnt = 0
         for j in range(num_users):

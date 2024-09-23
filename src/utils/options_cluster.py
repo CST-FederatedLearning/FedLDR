@@ -1,13 +1,5 @@
 import argparse
 
-## CIFAR-10 has 50000 training images (5000 per class), 10 classes, 10000 test images (1000 per class)
-## CIFAR-100 has 50000 training images (500 per class), 100 classes, 10000 test images (100 per class)
-## MNIST has 60000 training images (min: 5421, max: 6742 per class), 10000 test images (min: 892, max: 1135
-## per class) --> in the code we fixed 5000 training image per class, and 900 test image per class to be
-## consistent with CIFAR-10
-
-## CIFAR-10 Non-IID 250 samples per label for 2 class non-iid is the benchmark (500 samples for each client)
-
 def args_parser():
     parser = argparse.ArgumentParser()
     # general federated arguments

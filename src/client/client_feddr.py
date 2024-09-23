@@ -30,108 +30,19 @@ class Client_FedDR(object):
         self.save_best = True
         self.mu = mu
         self.num_clients = num_clients
-        # self.client_layer = DisLayer(num_classes, self.num_clients)
         self.client_pred = client_pred
         self.distribution = distribution
 
-    # def train(self, client_idx, is_print=False, args=None, lr=0.1):
-    #     # assert args.scene_a + args.scene_b + args.scene_c == 1
-    #     self.net.to(self.device)
-    #     self.dis_net.to(self.device)
-    #     # self.client_layer.to(self.device)
-    #
-    #     self.net.train()
-    #     self.dis_net.train()
-    #     self.client_idx = client_idx
-    #     print(f'lr:{lr}')
-    #     optimizer = torch.optim.SGD(self.net.parameters(), lr=lr, momentum=self.momentum, weight_decay=0)
-    #     # dis_optimizer = torch.optim.SGD(self.dis_net.parameters(), lr=lr, momentum=self.momentum, weight_decay=0)
-    #     # global_weight_collector = list(self.net.parameters())
-    #
-    #     epoch_loss = []
-    #     for iteration in range(self.local_ep):
-    #         batch_loss = []
-    #         for batch_idx, (images, labels) in enumerate(self.ldr_train):
-    #             images, labels = images.to(self.device), labels.to(self.device)
-    #             labels = labels.type(torch.LongTensor).to(self.device)
-    #
-    #             self.net.zero_grad()
-    #             self.dis_net.zero_grad()
-    #             # optimizer.zero_grad()
-    #             log_probs = self.net(images)
-    #             # dis_probs = self.dis_net(images)
-    #             # dis_probs_nograd = torch.Tensor.cpu(dis_probs).detach().numpy()
-    #             # dis_pred = self.softmax(dis_probs)
-    #             # dis_pred_index = torch.Tensor.cpu(dis_pred).detach().numpy().argmax(axis=1)
-    #             # todo :
-    #             # 增加客户端预测
-    #             loss = 0
-    #             dis_loss = 0
-    #             client_idx_loss = 0.0
-    #             if self.client_pred:
-    #                 # client_idx_out = self.client_layer(log_probs)
-    #                 # client_idx_pred = client_idx_out.argmax(axis=1)
-    #
-    #                 # cliet dis kd loss
-    #                 _out = 0
-    #                 if self.distribution is not None:
-    #                     # client_dis = self.net_cls_counts_npy[client_idx_pred]
-    #                     client_dis = self.distribution[client_idx]
-    #                     _out = client_dis * log_probs
-    #                     # loss += args.scene_b * self.loss_func(_out, client_dis)
-    #                 # if not torch.is_tensor(client_idx):
-    #                 #     client_idx = torch.Tensor(np.repeat(client_idx, dis_probs.size(0))).type(torch.LongTensor)
-    #                 # else:
-    #                 #     if client_idx.size(0) != dis_probs.size(0):
-    #                 #         client_idx = torch.Tensor(np.repeat(self.client_idx, dis_probs.size(0))).type(
-    #                 #             torch.LongTensor)
-    #                 #         client_idx = client_idx[0:dis_probs.size(0)]
-    #                 # client_idx = client_idx.cuda()
-    #                 # client_idx_loss += self.loss_func(client_idx_out, client_idx)
-    #                 # client_idx_loss += self.loss_func(dis_probs, client_idx)
-    #                 # loss += args.scene_a * client_idx_loss
-    #                 # loss += 0.2 * self.kld_loss(self.log_softmax(_out), self.softmax(labels))
-    #                 # loss += args.scene_b * self.loss_func(_out, labels)
-    #                 loss = self.loss_func(_out, labels)
-    #
-    #             # l  = self.loss_func(log_probs, labels)
-    #             # loss += args.scene_c * self.loss_func(log_probs, labels)
-    #             # dis_loss += self.loss_func(dis_probs, client_idx)
-    #
-    #             # fed_prox_reg = 0.0
-    #             # for param_index, param in enumerate(self.net.parameters()):
-    #             #     fed_prox_reg += ((self.mu / 2) * torch.norm((param - global_weight_collector[param_index])) ** 2)
-    #             #
-    #             # loss += fed_prox_reg
-    #
-    #             loss.backward()
-    #             # dis_loss.backward()
-    #             optimizer.step()
-    #             # dis_optimizer.step()
-    #             batch_loss.append(loss.item())
-    #
-    #         epoch_loss.append(sum(batch_loss) / len(batch_loss))
-    #
-    #     #         if self.save_best:
-    #     #             _, acc = self.eval_test()
-    #     #             if acc > self.acc_best:
-    #     #                 self.acc_best = acc
-    #
-    #     return sum(epoch_loss) / len(epoch_loss)
 
     def train(self, client_idx, is_print=False, args=None, lr=0.1):
-        # assert args.scene_a + args.scene_b + args.scene_c == 1
         self.net.to(self.device)
         self.dis_net.to(self.device)
-        # self.client_layer.to(self.device)
 
         self.net.train()
         self.dis_net.train()
         self.client_idx = client_idx
         print(f'lr:{lr}')
         optimizer = torch.optim.SGD(self.net.parameters(), lr=lr, momentum=self.momentum, weight_decay=0)
-        # dis_optimizer = torch.optim.SGD(self.dis_net.parameters(), lr=lr, momentum=self.momentum, weight_decay=0)
-        # global_weight_collector = list(self.net.parameters())
 
         epoch_loss = []
         for iteration in range(self.local_ep):
@@ -180,13 +91,6 @@ class Client_FedDR(object):
 
                 l = self.loss_func(log_probs, labels)
                 loss += args.scene_c * self.loss_func(log_probs, labels)
-                # dis_loss += self.loss_func(dis_probs, client_idx)
-
-                # fed_prox_reg = 0.0
-                # for param_index, param in enumerate(self.net.parameters()):
-                #     fed_prox_reg += ((self.mu / 2) * torch.norm((param - global_weight_collector[param_index])) ** 2)
-                #
-                # loss += fed_prox_reg
 
                 loss.backward()
                 # dis_loss.backward()
@@ -196,10 +100,6 @@ class Client_FedDR(object):
 
             epoch_loss.append(sum(batch_loss) / len(batch_loss))
 
-        #         if self.save_best:
-        #             _, acc = self.eval_test()
-        #             if acc > self.acc_best:
-        #                 self.acc_best = acc
 
         return sum(epoch_loss) / len(epoch_loss)
 
@@ -236,10 +136,6 @@ class Client_FedDR(object):
 
             epoch_loss.append(sum(batch_loss) / len(batch_loss))
 
-        #         if self.save_best:
-        #             _, acc = self.eval_test()
-        #             if acc > self.acc_best:
-        #                 self.acc_best = acc
 
         return sum(epoch_loss) / len(epoch_loss)
 
@@ -364,5 +260,4 @@ class DisLayer(nn.Module):
 
     def forward(self, X):
         out = self.client_layer(X)
-        # out += self.shortcut(X)
         return out

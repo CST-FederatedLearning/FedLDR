@@ -56,40 +56,9 @@ def main_fedavg(args):
     for name, param in net_glob.named_parameters():
         print(name, param.size())
         total += np.prod(param.size())
-        #print(np.array(param.data.cpu().numpy().reshape([-1])))
-        #print(isinstance(param.data.cpu().numpy(), np.array))
+
     print(f'total params {total}')
     print('-'*40)
-    ################################# Fixing all to the same Init and data partitioning and random users
-    #print(os.getcwd())
-
-    # tt = '../initialization/' + 'partitions_train_'+args.dataset+'_'+args.partition+'.pkl'
-    # with open(tt, 'rb') as f:
-    #     partitions_train = pickle.load(f)
-
-    # tt = '../initialization/' + 'partitions_train_'+args.dataset+'_'+args.partition+'.pkl'
-    # with open(tt, 'rb') as f:
-    #     partitions_train = pickle.load(f)
-
-    # tt = '../initialization/' + 'partitions_train_stat_'+args.dataset+'_'+args.partition+'.pkl'
-    # with open(tt, 'rb') as f:
-    #     partitions_train_stat = pickle.load(f)
-
-    # tt = '../initialization/' + 'partitions_test_stat_'+args.dataset+'_'+args.partition+'.pkl'
-    # with open(tt, 'rb') as f:
-    #     partitions_test_stat = pickle.load(f)
-
-    #tt = '../initialization/' + 'init_'+args.model+'_'+args.dataset+'.pth'
-    #initial_state_dict = torch.load(tt, map_location=args.device)
-    #net_glob.load_state_dict(initial_state_dict)
-
-    #server_state_dict = copy.deepcopy(initial_state_dict)
-    #for idx in range(args.num_users):
-    #    users_model[idx].load_state_dict(initial_state_dict)
-
-    # tt = '../initialization/' + 'comm_users.pkl'
-    # with open(tt, 'rb') as f:
-    #     comm_users = pickle.load(f)
     ################################# Initializing Clients
     print('-'*40)
     print('Initializing Clients')

@@ -49,11 +49,6 @@ class Client_FedAvg(object):
 
             epoch_loss.append(sum(batch_loss) / len(batch_loss))
 
-        #         if self.save_best:
-        #             _, acc = self.eval_test()
-        #             if acc > self.acc_best:
-        #                 self.acc_best = acc
-
         return sum(epoch_loss) / len(epoch_loss)
 
     def get_state_dict(self):
